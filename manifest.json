@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+
+  "name": "Ad Finder (temporary name)",
+  "description": "Finds all ads on the page and return a list of sizes of them",
+  "version": "0.1",
+  "author": "Kat Zhang",
+    "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["ad-finder.js"]
+    }
+  ]
+}
