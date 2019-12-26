@@ -8,7 +8,7 @@
     "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["ad-finder.js"]
+      "js": ["p5.min.js", "ad-finder.js"]
     }
   ]
 }
