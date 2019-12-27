@@ -29,7 +29,6 @@ function doSomethingToAds(ads) {
     ads.forEach(function(ad) {
         ad.id = 'not-the-same-' + ad.id;
         ad.innerHTML = '';
-        ad.style.background = 'red';
         // also change the parent element's id
         ad.parentElement.id = 'not-the-same-' + ad.parentElement.id;
         createSketch(ad);
@@ -69,17 +68,20 @@ setTimeout(function() {
 
 function createSketch(container) {
     let sketch = function(p) {
-        let yoff = 0;
-        function drawAHorizontalLine() {
-            let xoff = 0;
-/*             let yoff = 0; */
+        let xPositions = [];
+
+
+
+        function drawAHorizontalLine(xPos) {
+ /*            let xoff = 0; */
+            let yoff = 0;
             let x = 0, oldX, oldY;
-            for (let y = 0; y <= p.height; y += 5) {
+            for (let y = 0; y <= p.height; y += 3) {
                 // Calculate a y value according to noise, map to
                 oldY = y - 5;
                 oldX = x;
 
-                x = p.map(p.noise(yoff, xoff), 0, 1, 10, p.width - 10);
+                x = p.map(p.noise(yoff, xPos), 0, 1, xPos, xPos + 10);
                 
                 if (y > 0) {
                   p.line(oldX, oldY, x, y);
@@ -87,17 +89,23 @@ function createSketch(container) {
         
                 yoff += 0.05;
               }
-              xoff += 0.01;
+ /*              xoff += 0.01; */
         }
     
         p.setup = function() {
-            p.background(0);
-            p.stroke(255);
             p.createCanvas(container.offsetWidth, container.offsetHeight);
+            p.frameRate(10);
         };
+
+        let step = 10;
     
         p.draw = function() {
-            drawAHorizontalLine();
+            p.background(0);
+            p.stroke(255);
+            if (p.frameCount % step == 0 && p.frameCount < p.width) {
+                xPositions.push(p.frameCount);
+            }
+            xPositions.forEach(drawAHorizontalLine);
         };
     };
     
